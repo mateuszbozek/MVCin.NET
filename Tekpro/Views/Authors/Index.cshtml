@@ -1,0 +1,31 @@
+﻿@model List<Author>
+
+<h1>Index - authors</h1>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Surename</th>
+                <th>Książki</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var author in Model)
+        {
+          <tr>
+            <td>@author.Id</td>
+            <td>@author.Name</td>
+            <td>@author.Surename</td>
+            @* <td>
+              @foreach (var book in @author.Books)
+              { <p>@book.Title</p> }
+            </td> *@
+           </tr>
+        }
+        </tbody>
+    </table>
+
+</div>

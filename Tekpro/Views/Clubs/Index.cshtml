@@ -1,0 +1,43 @@
+﻿@model List<Club>
+
+<h1>Index - club</h1>
+
+<div class="container">
+    <a class="btn btn-primary" asp-controller="Clubs" asp-action="Create">Stwórz nowy klub</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Sport</th>
+                <th scope="col">Zawodnicy</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+                @foreach (var club in Model)
+                {
+                <tr>
+                    <td>@club.ID</td>
+                    <td>@club.Name</td>
+                    <td>@club.Sport?.Name</td>
+
+                    @foreach (var obj in club.Players)
+                    {
+                        <td>@obj.Name</td>
+                        <td>@obj.Surename</td>
+
+                    }
+                    <td>
+                        <a class="btn btn-light"></a>
+                        <form class="btn btn-danger" asp-controller="Clubs" asp-action="Delete" method="post">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Czy jesteś pewien?)"> Usuń</button>
+                        </form>
+
+                    </td>
+                </tr>
+                }
+        </tbody>
+    </table>
+
+</div>

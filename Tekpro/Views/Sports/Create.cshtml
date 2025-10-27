@@ -1,0 +1,37 @@
+﻿@model Sport
+
+<h1>Widok - sports - create</h1>
+    <div class="container">
+      <form asp-controller="Sports" asp-action="Create" asp-method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+          <div class="row">
+            <label>Nazwa sportu</label>
+            <input asp-for="Name" placeholder="Nazwa sportu">
+            <div asp-validation-for="Name" class="text-danger"></div>
+          </div>
+ 
+          <div class="row">
+            <label>Minut gry</label>
+            <input type="number" asp-for="MinuteOfGame" >
+            <div asp-validation-for="MinuteOfGame" class="text-danger"></div>
+
+          </div>
+
+          <div class="row">
+            <label>Czy jest to sport drużynowy</label>
+            <input type="checkbox" asp-for="TeamSport" >
+            <div asp-validation-for="TeamSport" class="text-danger"></div>
+
+          </div>
+
+          <div class="row">
+            <button type="submit">Zapisz</button>
+            <a class="btn btn-warning" asp-controller="Sports" asp-action="Index">Powrot</a>
+          </div>
+      </form>
+    </div>
+
+    @section Scripts{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+

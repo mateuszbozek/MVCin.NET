@@ -1,0 +1,37 @@
+﻿@model List<Sport>
+
+<h1>Widok - sports - index</h1>
+<div class="row">
+    <a class="btn btn-primary" asp-controller="Sports" asp-action="Create"> Stwórz </a>
+  <div class="row">
+      <table>
+        <thead>
+          <tr>
+           <th>Id</th>
+           <th>Sport</th>
+           <th>Minute of Game</th>
+           <th>Is team sport? </th>
+           <th>Actions</th>
+          </tr>
+        </thead>
+
+      <tbody>
+        @foreach (var sport in Model)
+        {
+          <tr>
+            <th>@sport.Id</th>
+            <th>@sport.Name</th>
+            <th>@sport.MinuteOfGame</th>
+            <th>@((sport.TeamSport)?"Tak":"Nie")</th>
+            <th>
+                <a class="btn btn-primary" asp-controller="Sports" asp-action="Edit" asp-route-id="@sport.Id"> Edytuj</a>
+                <form asp-action="Delete" asp-controller="Sports" method="post" asp-route-id="@sport.Id">
+                   <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?')"> Usuń</button>
+                </form>
+            </th>
+          </tr>
+        }
+      </tbody>
+      </table>
+  </div>
+</div>

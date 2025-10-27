@@ -1,0 +1,23 @@
+﻿@model Club
+
+<div class="container">
+    <form asp-controller="Clubs" asp-action="Create" method="post">
+        <div class="text-danger" asp-validation-summary="All"></div>
+
+        <div class="form-group">
+            <label asp-for="Name"> Nazwa </label>
+            <input asp-for="Name" class="form-control" placeholder="Nazwa klubu"/>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SportId">Dyscyplina</label>
+            <select asp-for="SportId" asp-items="ViewBag.Sports" class="form-control">
+                <option value="">-- Wybierz dyscyplinę --</option>
+            </select>
+            <span asp-validation-for="SportId" class="text-danger"></span>
+        </div>
+
+        <button class="btn btn-success" type="submit">Zatwierdź</button>
+        <a class="btn btn-danger" asp-controller="Clubs" asp-action="Index">Powrót do tabeli</a>
+    </form>
+</div>

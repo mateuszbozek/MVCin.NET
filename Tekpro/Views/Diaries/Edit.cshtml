@@ -1,0 +1,38 @@
+﻿@model Diary
+
+<h1>To jest widok edit - diary</h1>
+
+<div class="container">
+    <div class= "row">
+        <div class="col-md-8">
+            <div class="card">
+                <form asp-action="Edit" asp-controller="Diaries" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+                    <div class="form-group mb-3">
+                      <label asp-for="Title" class="form-label">Title</label>
+                      <input asp-for="Title" class="form-control" placeholder="Enter title" />
+                      <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                      <label asp-for="Content" class="form-label">Content</label>
+                      <input asp-for="Content" class="form-control" placeholder="Enter content" />
+                    </div>
+                    <div class="form-group mb-3">
+                      <label asp-for="Created" class="form-label">Created</label>
+                      <input asp-for="Created" class="form-control" type="date" />
+                    </div>
+                    <div class="d-flex">
+                      <button class="btn btn-success"type="submit">Zatwierdź zmiany</button>
+                      <button class="btn btn-dark" asp-controller="Diaries" asp-action="Index">Powrót</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial">
+}
+
