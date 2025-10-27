@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics.Eventing.Reader;
 using Tekpro.Data;
 using Tekpro.Models;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Tekpro.Controllers
 {
@@ -16,18 +19,22 @@ namespace Tekpro.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(String SearchString = "")
         {
+            IQueryable<Club> query = _db.Clubs.Include(c => c.Sport).Include(c => c.Players);
+
+            if (!SearchString.IsNullOrEmpty())
+            {
+                query = query.Where(c => c.Sport.Name == SearchString );
+            }
+
+            List<Club> clubs = query.ToList();
+            return View(clubs);
+
             //List<Club> clubs = _db.Clubs
             //    .Include(c => c.Sport)
             //    .Where(Sport => Sport.Name == "Piłka nożna")    
             //    .ToList();
-
-            var correct_clubs = (from c in _db.Clubs.Include(c => c.Sport).Include(c=> c.Players)
-                                 where c.Sport.Name == "Piłka nożna"
-                                 select c).ToList();
-
-            return View(correct_clubs);
         }
 
         public IActionResult Create() {
