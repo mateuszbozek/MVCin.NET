@@ -29,6 +29,11 @@ namespace Tekpro.Controllers
             }
 
             List<Club> clubs = query.ToList();
+
+            for ( int i = 0; i<clubs.Count; i=i+1)
+            {
+                Console.Write(i + " " + clubs[i].Name);
+            }
             return View(clubs);
 
             //List<Club> clubs = _db.Clubs
