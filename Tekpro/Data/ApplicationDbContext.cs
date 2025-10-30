@@ -81,9 +81,6 @@ namespace Tekpro.Data
                 .HasForeignKey(c => c.ClubId)
                 .IsRequired();
 
-
-
-
         }
     }
 }

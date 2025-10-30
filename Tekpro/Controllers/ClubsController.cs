@@ -2,8 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics.Eventing.Reader;
 using Tekpro.Data;
 using Tekpro.Models;
+using Tekpro.Models.ViewModels;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Tekpro.Controllers
 {
@@ -16,18 +20,26 @@ namespace Tekpro.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(ClubFilterViewModel filter)
         {
-            //List<Club> clubs = _db.Clubs
-            //    .Include(c => c.Sport)
-            //    .Where(Sport => Sport.Name == "Piłka nożna")    
-            //    .ToList();
+            IQueryable<Club> query = _db.Clubs.Include(c => c.Sport).Include(c => c.Players);
 
-            var correct_clubs = (from c in _db.Clubs.Include(c => c.Sport).Include(c=> c.Players)
-                                 where c.Sport.Name == "Piłka nożna"
-                                 select c).ToList();
+            if (!filter.ClubName.IsNullOrEmpty())
+            {
+                query = query.Where(c => c.Name == filter.ClubName );
+            }
+            if (!filter.SportName.IsNullOrEmpty())
+            {
+                query = query.Where(c => c.Sport.Name == filter.SportName);
+            }
+            if (!filter.PlayerSurename.IsNullOrEmpty())
+            {
+                query = query.Where(c => c.Players.Any(p => p.Name == filter.PlayerSurename) );
+            }
 
-            return View(correct_clubs);
+            filter.Clubs = query.ToList();
+
+            return View(filter);
         }
 
         public IActionResult Create() {
@@ -40,6 +52,10 @@ namespace Tekpro.Controllers
             if (obj == null) {
                 return View(obj);
             }
+            if (obj.SportId == 0)
+            {
+                return View(obj);
+            }
 
             _db.Clubs.Add(obj);
             _db.SaveChanges();
@@ -48,7 +64,7 @@ namespace Tekpro.Controllers
 
         public IActionResult Edit(int id)
         {
-            Club club = _db.Clubs.Find(id);
+            Club? club = _db.Clubs.Find(id);
             ViewBag.Sports = new SelectList(_db.Sports.OrderBy(s => s.Name), "Id", "Name");
             return View(club);
         }
@@ -56,7 +72,7 @@ namespace Tekpro.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            Club club = _db.Clubs.Find(id);
+            Club? club = _db.Clubs.Find(id);
             if (club == null)
             {
                 return View();
