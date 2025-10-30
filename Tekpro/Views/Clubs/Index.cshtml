@@ -1,13 +1,23 @@
-﻿@model List<Club>
+﻿@model ClubFilterViewModel
 
 <h1>Index - club</h1>
 
 <div class="container">
     <div class="row">
         <form asp-controller="Clubs" asp-action="Index">
-            <label for="searchString">Szukaj klubu:</label>
-            <input type="text" name="SearchString"/>
-            <input type="submit" value="Filter"/>
+            <div class="col-2"> 
+              <label for="searchString">Szukaj sportu:</label>
+              <input type="text" name="SportName" value="@Model?.SportName"/>
+            </div>
+            <div class="col-2"> 
+              <label for="searchString">Szukaj klubu:</label>
+              <input type="text" name="ClubName"  value="@Model?.ClubName"/>
+            </div>
+            <div class="col-2"> 
+              <label for="searchString">Szukaj zawodnika:</label>
+              <input type="text" name="PlayerSurename" value="@Model?.PlayerSurename"/>
+            </div>
+            <button type="submit" class="btn-btn light"> Szukaj </button>
         </form>
     </div>
 
@@ -24,7 +34,7 @@
             </tr>
         </thead>
         <tbody>
-                @foreach (var club in Model)
+                @foreach (var club in Model.Clubs)
                 {
                 <tr>
                     <td>@club.ID</td>
@@ -39,10 +49,9 @@
                     }
                     <td>
                         <a class="btn btn-light"></a>
-                        <form class="btn btn-danger" asp-controller="Clubs" asp-action="Delete" method="post">
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Czy jesteś pewien?)"> Usuń</button>
-                        </form>
-
+                        <form asp-controller="Clubs" asp-action="Delete" method="post" asp-route-id="@club.ID">
+                           <button type="submit" class="btn btn-danger" onclick="return confirm('Czy jesteś pewien?')"> Usuń</button>
+                        </form> 
                     </td>
                 </tr>
                 }
